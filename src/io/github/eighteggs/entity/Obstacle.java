@@ -3,6 +3,7 @@ package io.github.eighteggs.entity;
 import io.github.eighteggs.view.BackgroundImage;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Random;
@@ -15,12 +16,12 @@ import java.util.Random;
  * @variable stone, cacti: obstacle image
  * @variable speed: obstacle moving speed
  */
-public class Obstacle {
+public final class Obstacle {
     public int x, y;
     public BufferedImage image;
     public BufferedImage stone;
     public BufferedImage cacti;
-    private int speed;
+    private final int speed;
 
     public Obstacle() {
         try {
@@ -37,11 +38,21 @@ public class Obstacle {
             image = cacti;
         }
         x = 800;
-        y = 200-image.getHeight();
+        y = 200 - image.getHeight();
         speed = BackgroundImage.SPEED;
     }
 
     public void move() {
         x -= speed;
+    }
+
+    public boolean isLive() {
+        return x > -image.getWidth();
+    }
+
+    public Rectangle getBounds() {
+        return image == stone ?
+                new Rectangle(x + 5, y + 4, 23, 21) :
+                new Rectangle(x + 7, y, 15, image.getHeight());
     }
 }

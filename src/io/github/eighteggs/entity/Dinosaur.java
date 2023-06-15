@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+
 /**
  * Dinosaur entity
  *
@@ -18,19 +19,21 @@ import java.io.File;
  * @variable jumpValue: jump value
  * @variable stepTimer: step timer
  * @constant FRESH: fresh time
- * @constant JUMP_HEIGHT: jump height
+ * @constant JUMP_LIMIT: less the value, higher the jump
  * @constant LOWEST_Y: lowest y
  */
 public final class Dinosaur {
     private static final int FRESH = FreshThread.FRESH;
-    private static final int JUMP_HEIGHT = 100;
+    private static final int JUMP_LIMIT = 60;
     private static final int LOWEST_Y = 120;
     public BufferedImage image;
     public int x, y;
-    private BufferedImage image1, image2, image3;
-    private boolean isJumping;
-    private int jumpValue = 0;
     private int stepTimer = 0;
+    private BufferedImage image1;
+    private BufferedImage image2;
+    private BufferedImage image3;
+    private boolean isJumping = false;
+    private int jumpValue = 0;
 
     public Dinosaur() {
         x = 50;
@@ -51,11 +54,12 @@ public final class Dinosaur {
             case 2 -> image = image3;
             default -> throw new IllegalStateException("Unexpected value: " + stepTimer / 250 % 3);
         }
+        stepTimer += FRESH;
     }
 
     public void jump() {
-        if (!isJumping) {
-            Sound.play();
+        if (!isJumping && y >= LOWEST_Y - 50) {
+            Sound.play(Sound.SoundType.JUMP);
         }
         isJumping = true;
     }
@@ -63,21 +67,24 @@ public final class Dinosaur {
     public void move() {
         step();
         if (isJumping) {
-            if (y >= LOWEST_Y) jumpValue = -4;
-            if (y <= LOWEST_Y - JUMP_HEIGHT) jumpValue = 4;
-            y += jumpValue;
-            if (y >= LOWEST_Y) {
-                y = LOWEST_Y;
+            if (y >= LOWEST_Y) jumpValue = -5;
+            if (y <= JUMP_LIMIT - LOWEST_Y) {
                 isJumping = false;
             }
-        }
+        } else jumpValue = 4;
+        if (y >= LOWEST_Y) y = LOWEST_Y;
+        y += jumpValue;
     }
 
     public Rectangle getHeadBounds() {
-        return new Rectangle(x + 10, y, 30, 20);
+        return new Rectangle(x + 66, y + 25, 32, 22);
     }
 
     public Rectangle getFootBounds() {
-        return new Rectangle(x, y + 20, 50, 30);
+        return new Rectangle(x + 30, y + 59, 29, 18);
+    }
+
+    public void setJump(boolean b) {
+        isJumping = b;
     }
 }
