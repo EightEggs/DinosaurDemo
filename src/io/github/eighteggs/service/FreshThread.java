@@ -7,7 +7,7 @@ import io.github.eighteggs.view.ScoreDialog;
 import java.awt.*;
 
 public class FreshThread extends Thread {
-    public static final int FRESH = 1000 / 60;
+    public static final int FRESH = 1000 / 65;
     GamePanel gamePanel;
 
     public FreshThread(GamePanel gamePanel) {

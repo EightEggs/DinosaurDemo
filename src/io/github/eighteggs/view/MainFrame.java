@@ -14,7 +14,7 @@ import static io.github.eighteggs.service.ScoreRecorder.initScoreRecorder;
 public class MainFrame extends JFrame {
     public MainFrame() {
         restart();
-        setBounds(340, 150, 820, 250);
+        setBounds(680, 300, 810, 260);
         setTitle("Dinosaur Game");
         //Sound.play(Sound.SoundType.BACKGROUND);
         initScoreRecorder();

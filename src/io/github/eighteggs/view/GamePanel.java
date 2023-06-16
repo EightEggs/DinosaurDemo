@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements KeyListener {
         }
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 20));
-        g2.drawString("Score: " + score, 620, 28);
+        g2.drawString("Score: " + score, 650, 25);
         scoreTimer += FRESH;
         addObstacleTimer += FRESH;
     }
